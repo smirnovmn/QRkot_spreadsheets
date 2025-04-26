@@ -9,7 +9,6 @@ from app.crud.charity_project import project_crud
 from app.services.google_api import (set_user_permissions, spreadsheets_create,
                                      spreadsheets_update_value)
 
-
 router = APIRouter()
 
 

@@ -110,17 +110,6 @@ class CRUDProject(CRUDBase):
             for project, duration_days in result
         ]
         return res
-    # @staticmethod
-    # async def get_closed_projects_by_closure_speed(
-    #     session: AsyncSession
-    # ):
-    #     result = await session.execute(
-    #         select(CharityProject)
-    #         .where(CharityProject.fully_invested.is_(True))
-    #         .order_by(CharityProject.close_date.desc())
-    #     )
-    #     projects = result.scalars().all()
-    #     return projects
 
 
 project_crud = CRUDProject(CharityProject)

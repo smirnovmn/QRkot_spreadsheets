@@ -8,8 +8,7 @@ from app.crud.charity_project import project_crud
 from app.models import User
 from app.schemas.charity_project import (CharityProjectBase, CharityProjectDB,
                                          CharityProjectUpdate)
-from app.services.management_service import (create_new_project,
-                                             project_delete, project_update)
+from app.services.management_service import Management
 
 router = APIRouter()
 
@@ -35,7 +34,8 @@ async def create_projects(
         session: AsyncSession = Depends(get_async_session),
         user: User = Depends(current_superuser),
 ):
-    new_project = await create_new_project(project, user, session)
+    management = Management(session)
+    new_project = await management.create_new_project(project, user)
     return new_project
 
 
@@ -50,7 +50,8 @@ async def delete_project(
         user: User = Depends(current_superuser),
 ):
     project = await get_obj_or_404(project_id, session)
-    project = await project_delete(project, session)
+    management = Management(session)
+    project = await management.project_delete(project)
     return project
 
 
@@ -65,5 +66,6 @@ async def update_project(
     session: AsyncSession = Depends(get_async_session),
 ):
     project = await get_obj_or_404(project_id, session)
-    project = await project_update(project, obj_in, session)
+    management = Management(session)
+    project = await management.project_update(project, obj_in)
     return project
